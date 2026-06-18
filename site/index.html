@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7c6d8">
+  <meta name="description" content="属于李晓熙和姐姐的图集与回忆录">
+  <title>和姐姐的点滴</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="is-loading">
+  <div class="ambient" aria-hidden="true">
+    <span class="float-heart h1">♥</span><span class="float-heart h2">♥</span><span class="float-heart h3">♥</span>
+    <span class="balloon b1"></span><span class="balloon b2"></span>
+    <span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
+  </div>
+
+  <audio id="bgMusic" preload="auto"></audio>
+  <button id="musicToggle" class="music-toggle" type="button" aria-label="播放背景音乐" aria-pressed="false" title="背景音乐播放列表">
+    <span class="music-icon" aria-hidden="true">♫</span><span class="music-state">音乐</span>
+  </button>
+  <button id="musicNudge" class="music-nudge" type="button" hidden>轻触开启背景音乐</button>
+
+  <main id="app" class="app-shell">
+    <section id="loginView" class="view login-view is-active" data-view="login" aria-labelledby="loginTitle">
+      <div class="login-card glass-card">
+        <div class="seal" aria-hidden="true"><span>♥</span></div>
+        <p class="eyebrow">A LITTLE SECRET FOR US</p>
+        <h1 id="loginTitle">欢迎回到我们的故事</h1>
+        <p class="subheading">请用只有我们知道的暗号打开这封情书</p>
+
+        <form id="loginForm" class="login-form" novalidate>
+          <label for="username">用户名</label>
+          <div class="input-wrap"><span aria-hidden="true">♡</span><input id="username" name="username" type="text" autocomplete="off" placeholder="你的名字" required></div>
+
+          <label for="nickname">昵称</label>
+          <div class="input-wrap"><span aria-hidden="true">♡</span><input id="nickname" name="nickname" type="text" autocomplete="off" placeholder="我叫你的名字" required></div>
+
+          <label for="password">密码</label>
+          <div class="input-wrap"><span aria-hidden="true">♡</span><input id="password" name="password" type="password" autocomplete="current-password" placeholder="你的生日，八位数字格式哦" required></div>
+
+          <p id="loginError" class="login-error" role="alert" hidden>姐姐再想一想哦~</p>
+          <button id="loginButton" class="primary-button" type="submit" disabled><span>走进我们的故事</span><span aria-hidden="true">→</span></button>
+        </form>
+        <p id="appStatus" class="app-status" aria-live="polite">正在整理我们的回忆…</p>
+      </div>
+    </section>
+
+    <section id="homeView" class="view home-view" data-view="home" aria-labelledby="homeTitle">
+      <div class="home-card glass-card">
+        <p class="eyebrow">SINCE 2026.04.04</p>
+        <time id="todayDate" class="today-date"></time>
+        <div class="couple-mark" aria-hidden="true"><span>猫猫</span><i>♥</i><span>姐姐</span></div>
+        <h1 id="homeTitle">我们在一起已经 <strong id="daysTogether">—</strong> 天啦~</h1>
+        <div id="holidayGreeting" class="holiday-greeting" aria-live="polite" hidden></div>
+        <p class="home-copy">往后的每一天，都继续和你一起收藏。</p>
+        <div class="home-actions">
+          <button id="openAlbum" class="chapter-button album-button" type="button">
+            <span class="chapter-icon" aria-hidden="true">▣</span><span><b>打开我们的图集</b><small>按时间翻阅每一个瞬间</small></span><span aria-hidden="true">→</span>
+          </button>
+          <button id="openMemoir" class="chapter-button memoir-button" type="button">
+            <span class="chapter-icon" aria-hidden="true">✎</span><span><b>查阅回忆录</b><small>把故事写成一页又一页</small></span><span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="albumView" class="view content-view album-view" data-view="album" aria-labelledby="albumHeading">
+      <header class="content-header">
+        <button class="back-button" data-back="home" type="button" aria-label="返回首页">← <span>回到首页</span></button>
+        <div><p class="eyebrow">OUR PHOTO ALBUM</p><h1 id="albumHeading">我们的图集</h1></div>
+        <span id="albumCounter" class="page-counter">1 / 1</span>
+      </header>
+
+      <div id="albumStage" class="album-stage">
+        <article id="photoPage" class="photo-page">
+          <div class="photo-tape tape-left" aria-hidden="true"></div><div class="photo-tape tape-right" aria-hidden="true"></div>
+          <figure class="photo-frame">
+            <img id="albumImage" alt="" draggable="false">
+            <div class="photo-loading" aria-hidden="true"><span>♥</span></div>
+          </figure>
+          <div class="photo-copy">
+            <time id="photoDate"></time>
+            <h2 id="photoTitle"></h2>
+            <p id="photoCaption"></p>
+          </div>
+        </article>
+      </div>
+
+      <nav class="page-nav" aria-label="图集翻页">
+        <button id="albumPrev" type="button">← 上一页</button>
+        <div id="albumDots" class="page-dots" aria-hidden="true"></div>
+        <button id="albumNext" type="button">下一页 →</button>
+      </nav>
+      <p class="gesture-tip">也可以左右滑动，或使用键盘方向键翻页</p>
+    </section>
+
+    <section id="memoirView" class="view content-view memoir-view" data-view="memoir" aria-labelledby="memoirHeading">
+      <header class="content-header">
+        <button class="back-button" data-back="home" type="button" aria-label="返回首页">← <span>回到首页</span></button>
+        <div><p class="eyebrow">OUR MEMOIR</p><h1 id="memoirHeading">我们的回忆录</h1></div>
+        <span id="memoirCounter" class="page-counter">1 / 1</span>
+      </header>
+
+      <div class="notebook-wrap">
+        <div id="memoirBook" class="memoir-book">
+          <section id="memoirCover" class="memoir-cover" aria-labelledby="memoirCoverText">
+            <div class="memoir-cover-spine" aria-hidden="true"></div>
+            <div class="memoir-cover-inner">
+              <span class="memoir-cover-heart" aria-hidden="true">♥</span>
+              <p id="memoirCoverText" class="memoir-cover-text"></p>
+              <button id="openMemoirBook" class="cover-open-button" type="button">
+                <span>打开回忆录</span><span aria-hidden="true">→</span>
+              </button>
+            </div>
+            <span class="cover-corner corner-top" aria-hidden="true"></span>
+            <span class="cover-corner corner-bottom" aria-hidden="true"></span>
+          </section>
+
+          <div id="notebook" class="notebook" aria-hidden="true">
+            <div class="binder-spine" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+            <article class="paper-page">
+              <div class="paper-margin" aria-hidden="true"></div>
+              <p id="memoirText" class="memoir-text"></p>
+              <span id="memoirPageNumber" class="paper-number">01</span>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <nav id="memoirNav" class="page-nav" aria-label="回忆录翻页" hidden>
+        <button id="memoirPrev" type="button">← 回到封面</button>
+        <span class="book-caption">每一段文字，都是最珍贵的回忆</span>
+        <button id="memoirNext" type="button">下一页 →</button>
+      </nav>
+    </section>
+  </main>
+
+  <noscript><div class="noscript">这个网页需要启用 JavaScript 才能计算纪念日并翻阅图集。</div></noscript>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
